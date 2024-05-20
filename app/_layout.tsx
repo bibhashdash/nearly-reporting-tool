@@ -34,13 +34,18 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" options={
           {
             header: () =>
-              <Appbar.Header>
+              <Appbar.Header style={ {
+                backgroundColor: '#ffffff'
+              } }>
                 <Appbar.Content title="NEARLY" />
-                <Appbar.Action icon="account" onPress={ () => router.push('/profile') } />
+                <Appbar.Action icon="account-circle" size={ 36 } onPress={ () => router.push('/profile') } />
               </Appbar.Header>
           } }
         />
         <Stack.Screen name="+not-found" />
+        <Stack.Screen name="profile/index" options={ {
+          title: 'Profile'
+        } } />
       </Stack>
     </ThemeProvider>
   );
