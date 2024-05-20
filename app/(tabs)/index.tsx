@@ -132,6 +132,8 @@ export default function HomeScreen() {
         homeTab === 'latest' ? (
           <ScrollView contentContainerStyle={ {
             gap: 20,
+            marginBottom: 100,
+            marginTop: 20,
           } }>
             {
               latestReports.map(item => (
@@ -148,7 +150,11 @@ export default function HomeScreen() {
             }
           </ScrollView>
         ) :
-          <ScrollView>
+          <ScrollView style={ {
+            gap: 20,
+            marginBottom: 100,
+            marginTop: 20,
+          } }>
             {
               myReports.map(item => (
                 <Card key={ item.id }>
