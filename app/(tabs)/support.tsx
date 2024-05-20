@@ -1,10 +1,10 @@
 import { Text, View } from 'react-native';
 
-export default function TabTwoScreen() {
+export default function TabFourScreen() {
   return (
     <View>
       <Text>
-        Explore
+        Support
       </Text>
     </View>
   );
