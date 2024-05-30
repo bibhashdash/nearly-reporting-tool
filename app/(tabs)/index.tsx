@@ -1,6 +1,6 @@
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useState } from 'react';
-import {Card, useTheme} from 'react-native-paper';
+import { Card, useTheme } from 'react-native-paper';
 
 export interface Report {
   id: number,
