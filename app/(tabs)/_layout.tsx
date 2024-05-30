@@ -1,11 +1,9 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
-
 import { TabBarIcon } from 'nearly-components';
-import { Colors } from 'nearly-constants';
-import { useColorScheme } from 'nearly-utilities';
+import { useTheme } from 'react-native-paper';
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const { colors } = useTheme();
 
   return (
     <Tabs
@@ -17,7 +15,7 @@ export default function TabLayout() {
         tabBarLabelStyle: {
           fontSize: 16,
         },
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: colors.primary,
         headerShown: false,
       } }>
       <Tabs.Screen

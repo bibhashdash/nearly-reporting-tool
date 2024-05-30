@@ -1,6 +1,6 @@
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useState } from 'react';
-import { Card } from 'react-native-paper';
+import {Card, useTheme} from 'react-native-paper';
 
 export interface Report {
   id: number,
@@ -84,6 +84,7 @@ const latestDummyData: Array<Report> = [
 ];
 
 export default function HomeScreen() {
+  const { colors } = useTheme();
 
   const [homeTab, setHomeTab] = useState<string>('latest');
   const [latestReports, setLatestReports] = useState<Array<Report>>(latestDummyData);
@@ -110,7 +111,7 @@ export default function HomeScreen() {
           <Text style={ {
             fontSize: 20,
             fontWeight: 'bold',
-            color: homeTab === 'latest' ? 'green' : '#000000',
+            color: homeTab === 'latest' ? colors.primary : colors.tertiary,
             textDecorationLine: homeTab === 'latest' ? 'underline' : 'none',
           } }>
             Latest
@@ -120,7 +121,7 @@ export default function HomeScreen() {
           <Text style={ {
             fontSize: 20,
             fontWeight: 'bold',
-            color: homeTab === 'my-reports' ? 'green' : '#000000',
+            color: homeTab === 'my-reports' ? colors.primary : colors.tertiary,
             textDecorationLine: homeTab === 'my-reports' ? 'underline' : 'none',
           } }>
             My Reports
