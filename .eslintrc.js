@@ -1,6 +1,6 @@
 module.exports = {
   extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
-  ignorePatterns: ['babel.config.js', 'reset-project.js'],
+  ignorePatterns: ['babel.config.js', 'reset-project.js', 'metro.config.js', 'firebase.js'],
   plugins: ['@stylistic', '@typescript-eslint', 'unused-imports'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
