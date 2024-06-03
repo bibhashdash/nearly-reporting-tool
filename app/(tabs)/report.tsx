@@ -10,7 +10,6 @@ export default function TabTwoScreen() {
   const [date, setDate] = useState<Date>(new Date());
   const [image, setImage] = useState<string | null>(null);
 
-  const { colors } = useTheme();
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
