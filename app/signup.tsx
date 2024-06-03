@@ -2,8 +2,9 @@ import { Button, Icon, Text, TextInput, useTheme } from 'react-native-paper';
 import { ScrollView, View } from 'react-native';
 import { router } from 'expo-router';
 
-export default function LoginScreen() {
+export default function Signup() {
   const { colors } = useTheme();
+
   return (
     <ScrollView
       contentContainerStyle={ {
@@ -11,8 +12,7 @@ export default function LoginScreen() {
         alignItems: 'center',
         justifyContent: 'center',
         gap: 12,
-      } }
-    >
+      } }>
       <View style={ {
         alignItems: 'center'
       } }>
@@ -46,6 +46,13 @@ export default function LoginScreen() {
           <TextInput secureTextEntry={ true } textContentType="password" />
         </View>
 
+        <View>
+          <Text variant="labelLarge">
+            Re-type Password
+          </Text>
+          <TextInput secureTextEntry={ true } textContentType="password" />
+        </View>
+
         <View style={ {
           alignItems: 'center',
         } }>
@@ -55,7 +62,7 @@ export default function LoginScreen() {
             } }
             mode="contained"
           >
-            Login
+            Signup
           </Button>
         </View>
 
@@ -67,13 +74,12 @@ export default function LoginScreen() {
               width: 200,
             } }
             mode="outlined"
-            onPress={ () => router.push('/signup') }
+            onPress={ () => router.back() }
           >
-            Signup
+            Login
           </Button>
         </View>
       </View>
-
     </ScrollView>
   )
 }
