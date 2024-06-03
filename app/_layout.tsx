@@ -37,6 +37,12 @@ export default function RootLayout() {
   return (
     <Provider theme={ theme }>
       <Stack>
+        <Stack.Screen
+          name="index"
+          options={ {
+            title: 'Login'
+          } }
+        />
         <Stack.Screen name="(tabs)" options={
           {
             header: () =>
