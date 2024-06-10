@@ -3,17 +3,20 @@ import { Button, IconButton, Text, TextInput } from 'react-native-paper';
 import { useState } from 'react';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
+import { storage } from '../../../utilities/firebase';
+import { ref, uploadBytesResumable } from 'firebase/storage';
+import { useAuthContext } from 'nearly-contexts';
 
 export default function ReportScreen() {
   const [title, setTitle] = useState<string>('')
   const [description, setDescription] = useState<string>('');
   const [date, setDate] = useState<Date>(new Date());
   const [image, setImage] = useState<string | null>(null);
-
+  const { user } = useAuthContext();
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: false,
+      allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
     });
@@ -31,6 +34,17 @@ export default function ReportScreen() {
       }
     }
     return require('../../../assets/images/add_photo_alternate_24dp_FILL0_wght400_GRAD0_opsz24 (1).png')
+  }
+
+  const handleSubmit = async () => {
+    if (image) {
+      const response = await fetch(image);
+      const blob = await response.blob();
+      const imageRef = ref(storage, `images/${ user?.uid }-${ date }-${ title.toLowerCase() }`);
+      uploadBytesResumable(imageRef, blob).then(snapshot => {
+        console.log(snapshot.metadata);
+      }).catch(error => console.error('Error', error))
+    }
   }
 
   return (
@@ -117,6 +131,7 @@ export default function ReportScreen() {
             style={ {
               paddingHorizontal: 18,
             } }
+            onPress={ handleSubmit }
             mode="contained">
             Submit for Review
           </Button>

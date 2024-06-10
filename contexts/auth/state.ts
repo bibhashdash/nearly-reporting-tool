@@ -47,6 +47,7 @@ export function useAuthContextState(): AuthContextState {
     isLoggedIn,
     setIsLoggedIn,
     logout,
-    signIn
+    signIn,
+    user,
   }
 }

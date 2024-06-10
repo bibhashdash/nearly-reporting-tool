@@ -6,6 +6,7 @@ export const AuthContext = createContext<AuthContextState>({
   setIsLoggedIn: () => {},
   signIn: () => {},
   logout: () => {},
+  user: null
 })
 
 export const useAuthContext = () => useContext(AuthContext)
