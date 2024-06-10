@@ -26,9 +26,11 @@ export default function ReportScreen() {
   const getImageSource = () => {
     if (image) {
       console.log(image);
-      return image
+      return {
+        uri: image
+      }
     }
-    return '../../assets/images/add_photo_alternate_24dp_FILL0_wght400_GRAD0_opsz24 (1).png'
+    return require('../../../assets/images/add_photo_alternate_24dp_FILL0_wght400_GRAD0_opsz24 (1).png')
   }
 
   return (
@@ -48,9 +50,7 @@ export default function ReportScreen() {
           style={ {
           alignItems: 'center'
         } }>
-          <Image width={ 300 } height={ 200 } source={ {
-            uri: getImageSource()
-          } } />
+          <Image width={ 300 } height={ 200 } source={ getImageSource() } />
           {
             !image && (
               <Text>
@@ -118,7 +118,7 @@ export default function ReportScreen() {
               paddingHorizontal: 18,
             } }
             mode="contained">
-            Submit
+            Submit for Review
           </Button>
         </View>
       </View>
