@@ -1,9 +1,17 @@
-import { Button, Icon, Text, TextInput, useTheme } from 'react-native-paper';
+import { Button, Icon, Snackbar, Text, TextInput, useTheme } from 'react-native-paper';
 import { ScrollView, View } from 'react-native';
 import { router } from 'expo-router';
+import { useState } from 'react';
+import { useAuthContext } from 'nearly-contexts';
 
 export default function LoginScreen() {
   const { colors } = useTheme();
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [showError, setShowError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { signIn } = useAuthContext();
+
   return (
     <ScrollView
       contentContainerStyle={ {
@@ -13,6 +21,11 @@ export default function LoginScreen() {
         gap: 12,
       } }
     >
+      <View>
+        <Snackbar visible={ showError } onDismiss={ () => setShowError(false) }>
+          { errorMessage }
+        </Snackbar>
+      </View>
       <View style={ {
         alignItems: 'center'
       } }>
@@ -36,14 +49,14 @@ export default function LoginScreen() {
           <Text variant="labelLarge">
             Email
           </Text>
-          <TextInput textContentType="emailAddress" />
+          <TextInput onChangeText={ text => setEmail(text) } textContentType="emailAddress" />
         </View>
 
         <View>
           <Text variant="labelLarge">
             Password
           </Text>
-          <TextInput secureTextEntry={ true } textContentType="password" />
+          <TextInput onChangeText={ text => setPassword(text) } secureTextEntry={ true } textContentType="password" />
         </View>
 
         <View style={ {
@@ -54,6 +67,9 @@ export default function LoginScreen() {
               width: 200,
             } }
             mode="contained"
+            onPress={ () => {
+              signIn(email, password);
+            } }
           >
             Login
           </Button>

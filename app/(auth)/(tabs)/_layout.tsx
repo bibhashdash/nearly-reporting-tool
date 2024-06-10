@@ -1,13 +1,27 @@
 import { Tabs } from 'expo-router';
-import React from 'react';
+import { Appbar, useTheme } from 'react-native-paper';
+import { useAuthContext } from 'nearly-contexts';
 import { TabBarIcon } from 'nearly-components';
-import { useTheme } from 'react-native-paper';
-export default function TabLayout() {
-  const { colors } = useTheme();
+import React from 'react';
 
+export default function TabsLayout() {
+  const { logout } = useAuthContext();
+  const { colors } = useTheme();
   return (
     <Tabs
       screenOptions={ {
+        header: () =>
+          <Appbar.Header style={ {
+            backgroundColor: '#ffffff'
+          } }>
+            <Appbar.Content title="NEARLY" />
+            <Appbar.Action
+              icon="logout"
+              size={ 36 }
+              onPress={ () => {
+                logout();
+              } } />
+          </Appbar.Header>,
         tabBarStyle: {
           height: 100,
           paddingBottom: 10,
@@ -16,7 +30,6 @@ export default function TabLayout() {
           fontSize: 16,
         },
         tabBarActiveTintColor: colors.primary,
-        headerShown: false,
       } }>
       <Tabs.Screen
         name="index"
@@ -55,5 +68,6 @@ export default function TabLayout() {
         } }
       />
     </Tabs>
-  );
+
+  )
 }

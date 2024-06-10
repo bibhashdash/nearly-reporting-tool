@@ -18,6 +18,8 @@
       "nearly-components": ["components"],
       "nearly-constants": ["constants"],
       "nearly-utilities": ["utilities"],
+      "nearly-contexts": ["contexts"],
+      "@firebase/auth": ["./node_modules/@firebase/auth/dist/index.rn.d.ts"]
     }
   },
   "include": [

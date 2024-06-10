@@ -1,11 +1,11 @@
 import { Text, View } from 'react-native';
 
-export default function ProfileScreen() {
+export default function StatsScreen() {
   return (
     <View>
       <Text>
-        Profile section
+        Explore
       </Text>
     </View>
-  )
+  );
 }

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
 
-export default function TabTwoScreen() {
+export default function ReportScreen() {
   const [title, setTitle] = useState<string>('')
   const [description, setDescription] = useState<string>('');
   const [date, setDate] = useState<Date>(new Date());
