@@ -11,7 +11,7 @@ import { addDoc, collection, QueryDocumentSnapshot, SnapshotOptions, WithFieldVa
 import { router } from 'expo-router';
 
 const reportConverter = {
-  toFirestore(report: WithFieldValue<any>): Report {
+  toFirestore(report: WithFieldValue<Report>): Report {
     return {
       date: report.date,
       imageSrc: report.imageSrc,
@@ -20,7 +20,7 @@ const reportConverter = {
       description: report.description,
       id: report.id,
       userId: report.userId,
-    }
+    } as Report
   },
 
   fromFirestore(
