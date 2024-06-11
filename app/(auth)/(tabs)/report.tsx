@@ -3,9 +3,42 @@ import { Button, IconButton, Text, TextInput } from 'react-native-paper';
 import { useState } from 'react';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
-import { storage } from '../../../utilities/firebase';
-import { ref, uploadBytesResumable } from 'firebase/storage';
+import { database, storage } from '../../../utilities/firebase';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { useAuthContext } from 'nearly-contexts';
+import { Report } from './index';
+import { addDoc, collection, QueryDocumentSnapshot, SnapshotOptions, WithFieldValue } from '@firebase/firestore';
+import { router } from 'expo-router';
+
+const reportConverter = {
+  toFirestore(report: WithFieldValue<any>): Report {
+    return {
+      date: report.date,
+      imageSrc: report.imageSrc,
+      location: report.location,
+      isApproved: report.isApproved,
+      description: report.description,
+      id: report.id,
+      userId: report.userId,
+    }
+  },
+
+  fromFirestore(
+    snapshot: QueryDocumentSnapshot,
+    options: SnapshotOptions
+  ): Report {
+    const data = snapshot.data(options) as Report;
+    return {
+      date: data.date,
+      imageSrc: data.imageSrc,
+      location: data.location,
+      isApproved: data.isApproved,
+      description: data.description,
+      id: data.id,
+      userId: data.userId,
+    }
+  }
+}
 
 export default function ReportScreen() {
   const [title, setTitle] = useState<string>('')
@@ -28,7 +61,6 @@ export default function ReportScreen() {
 
   const getImageSource = () => {
     if (image) {
-      console.log(image);
       return {
         uri: image
       }
@@ -37,14 +69,36 @@ export default function ReportScreen() {
   }
 
   const handleSubmit = async () => {
-    if (image) {
+    if (image && title && description && date && user) {
+
+      const imageRelativeUrl = `images/${ user?.uid }-${ date }-${ title.toLowerCase() }`
+
       const response = await fetch(image);
       const blob = await response.blob();
-      const imageRef = ref(storage, `images/${ user?.uid }-${ date }-${ title.toLowerCase() }`);
+      const imageRef = ref(storage, imageRelativeUrl);
       uploadBytesResumable(imageRef, blob).then(snapshot => {
-        console.log(snapshot.metadata);
+        // console.log(snapshot.metadata);
+        const downloadUrl = getDownloadURL(snapshot.ref).then(url => {
+          console.log(url);
+          uploadReportForApproval({
+            userId: user.uid,
+            imageSrc: url,
+            date: date.toString(),
+            description,
+            location: 'Aire streeet',
+            isApproved: false,
+            id: new Date().toString(),
+          })
+        })
       }).catch(error => console.error('Error', error))
+
     }
+  }
+
+  const uploadReportForApproval = (reportPayload: Report) => {
+    const docRef = collection(database, 'allReports').withConverter(reportConverter);
+    addDoc(docRef, reportPayload).then(result => console.log(result));
+    router.replace('/(auth)/')
   }
 
   return (
