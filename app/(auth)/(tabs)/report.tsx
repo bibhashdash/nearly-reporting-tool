@@ -1,6 +1,6 @@
 import { Image, Pressable, ScrollView, View } from 'react-native';
 import { Button, IconButton, Text, TextInput } from 'react-native-paper';
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
 import { database, storage } from '../../../utilities/firebase';
@@ -20,6 +20,7 @@ const reportConverter = {
       description: report.description,
       id: report.id,
       userId: report.userId,
+      title: report.title,
     } as Report
   },
 
@@ -36,6 +37,7 @@ const reportConverter = {
       description: data.description,
       id: data.id,
       userId: data.userId,
+      title: data.title,
     }
   }
 }
@@ -46,6 +48,13 @@ export default function ReportScreen() {
   const [date, setDate] = useState<Date>(new Date());
   const [image, setImage] = useState<string | null>(null);
   const { user } = useAuthContext();
+
+  useEffect(() => {
+    setDate(new Date());
+    setImage(null);
+    setTitle('');
+    setDescription('');
+  }, [])
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -81,6 +90,7 @@ export default function ReportScreen() {
         getDownloadURL(snapshot.ref).then(url => {
           console.log(url);
           uploadReportForApproval({
+            title,
             userId: user.uid,
             imageSrc: url,
             date: date.toString(),
@@ -142,9 +152,6 @@ export default function ReportScreen() {
         <View>
           <Text>Description</Text>
           <TextInput
-            style={ {
-              height: 200
-            } }
             multiline={ true }
             value={ description }
             onChangeText={ text => setDescription(text) }

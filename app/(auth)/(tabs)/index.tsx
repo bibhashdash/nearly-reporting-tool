@@ -1,5 +1,5 @@
-import { Pressable, ScrollView, Text, View } from 'react-native';
-import { useEffect, useState } from 'react';
+import { Pressable, ScrollView, Text, View, RefreshControl } from 'react-native';
+import {useCallback, useEffect, useState} from 'react';
 import { Card, useTheme } from 'react-native-paper';
 import { useAuthContext } from 'nearly-contexts';
 import { collection, getDocs, query, where } from '@firebase/firestore';
@@ -8,6 +8,7 @@ import { EmptyState } from '../../../components/layout';
 
 export interface Report {
   id: string,
+  title: string,
   date: string,
   description: string,
   location: string,
@@ -19,12 +20,19 @@ export interface Report {
 const latestDummyData: Array<Report> = [];
 
 export default function HomeScreen() {
+  const [refreshing, setRefreshing] = useState(false);
+
   const { colors } = useTheme();
   const { user } = useAuthContext();
   const [homeTab, setHomeTab] = useState<string>('latest');
   const [latestReports, setLatestReports] = useState<Array<Report>>(latestDummyData);
   const [myReports, setMyReports] = useState<Array<Report>>([])
-
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
   const fetchMyDocuments = async () => {
     if (user) {
       const tempArray: Array<Report> = [];
@@ -48,14 +56,18 @@ export default function HomeScreen() {
   useEffect(() => {
     fetchMyDocuments();
     fetchAllDocuments();
-  }, [])
+  }, [homeTab])
 
   return (
     <ScrollView style={ {
       paddingVertical: 24,
       paddingHorizontal: 12,
       flex: 1,
-    } }>
+    } }
+    refreshControl={
+      <RefreshControl refreshing={ refreshing } onRefresh={ onRefresh } />
+    }
+    >
       <View style={ {
         flexDirection: 'row',
         width: '100%',
@@ -95,7 +107,9 @@ export default function HomeScreen() {
                 <>
                   {
                     latestReports.map(item => (
-                      <Card key={ item.id }>
+                      <Card style={{
+                        marginVertical: 12,
+                      }} key={ item.id }>
                         <Card.Title title={ item.date } subtitle={ item.location } />
                         <Card.Cover source={ { uri: item.imageSrc } } />
                         <Card.Content>
@@ -125,9 +139,11 @@ export default function HomeScreen() {
                 <>
                   {
                     myReports.map(item => (
-                      <View key={ item.id }>
+                      <View style={{
+                        marginVertical: 12,
+                      }} key={ item.id }>
                         <Card>
-                          <Card.Title title={ item.date } subtitle={ item.location } />
+                          <Card.Title title={ item.title } subtitle={ item.location } />
                           <Card.Cover source={ { uri: item.imageSrc } } />
                           <Card.Content>
                             <Text>
