@@ -1,5 +1,5 @@
 import { Pressable, ScrollView, Text, View, RefreshControl } from 'react-native';
-import {useCallback, useEffect, useState} from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Card, useTheme } from 'react-native-paper';
 import { useAuthContext } from 'nearly-contexts';
 import { collection, getDocs, query, where } from '@firebase/firestore';
@@ -107,9 +107,9 @@ export default function HomeScreen() {
                 <>
                   {
                     latestReports.map(item => (
-                      <Card style={{
+                      <Card style={ {
                         marginVertical: 12,
-                      }} key={ item.id }>
+                      } } key={ item.id }>
                         <Card.Title title={ item.date } subtitle={ item.location } />
                         <Card.Cover source={ { uri: item.imageSrc } } />
                         <Card.Content>
@@ -139,9 +139,9 @@ export default function HomeScreen() {
                 <>
                   {
                     myReports.map(item => (
-                      <View style={{
+                      <View style={ {
                         marginVertical: 12,
-                      }} key={ item.id }>
+                      } } key={ item.id }>
                         <Card>
                           <Card.Title title={ item.title } subtitle={ item.location } />
                           <Card.Cover source={ { uri: item.imageSrc } } />

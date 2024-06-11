@@ -1,6 +1,6 @@
 import { Image, Pressable, ScrollView, View } from 'react-native';
 import { Button, IconButton, Text, TextInput } from 'react-native-paper';
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
 import { database, storage } from '../../../utilities/firebase';
