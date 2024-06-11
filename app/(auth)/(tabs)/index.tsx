@@ -2,15 +2,8 @@ import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useEffect, useState } from 'react';
 import { Card, useTheme } from 'react-native-paper';
 import { useAuthContext } from 'nearly-contexts';
-import {
-  collection,
-  getDocs, query,
-  QueryDocumentSnapshot,
-  SnapshotOptions, where,
-  WithFieldValue
-} from '@firebase/firestore';
-import { database, storage } from '../../../utilities/firebase';
-import { getDownloadURL, ref } from 'firebase/storage';
+import { collection, getDocs, query, where } from '@firebase/firestore';
+import { database } from '../../../utilities/firebase';
 import { EmptyState } from '../../../components/layout';
 
 export interface Report {
@@ -53,7 +46,8 @@ export default function HomeScreen() {
   }
 
   useEffect(() => {
-    fetchMyDocuments()
+    fetchMyDocuments();
+    fetchAllDocuments();
   }, [])
 
   return (

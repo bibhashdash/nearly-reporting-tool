@@ -78,7 +78,7 @@ export default function ReportScreen() {
       const imageRef = ref(storage, imageRelativeUrl);
       uploadBytesResumable(imageRef, blob).then(snapshot => {
         // console.log(snapshot.metadata);
-        const downloadUrl = getDownloadURL(snapshot.ref).then(url => {
+        getDownloadURL(snapshot.ref).then(url => {
           console.log(url);
           uploadReportForApproval({
             userId: user.uid,
