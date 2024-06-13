@@ -4,7 +4,7 @@ import { Card, useTheme } from 'react-native-paper';
 import { useAuthContext } from 'nearly-contexts';
 import { collection, getDocs, query, where } from '@firebase/firestore';
 import { database } from '../../../utilities/firebase';
-import { EmptyState } from '../../../components/layout';
+import { EmptyState } from 'nearly-components';
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 
@@ -19,8 +19,6 @@ export interface Report {
   userId: string,
 }
 
-const latestDummyData: Array<Report> = [];
-
 export default function HomeScreen() {
 
   const [refreshing, setRefreshing] = useState(false);
@@ -29,7 +27,7 @@ export default function HomeScreen() {
   const { colors } = useTheme();
   const { user } = useAuthContext();
   const [homeTab, setHomeTab] = useState<string>('latest');
-  const [latestReports, setLatestReports] = useState<Array<Report>>(latestDummyData);
+  const [latestReports, setLatestReports] = useState<Array<Report>>([]);
   const [myReports, setMyReports] = useState<Array<Report>>([])
   const onRefresh = useCallback(() => {
     setRefreshing(true);
