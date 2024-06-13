@@ -5,6 +5,8 @@ import { useAuthContext } from 'nearly-contexts';
 import { collection, getDocs, query, where } from '@firebase/firestore';
 import { database } from '../../../utilities/firebase';
 import { EmptyState } from '../../../components/layout';
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 
 export interface Report {
   id: string,
@@ -20,7 +22,9 @@ export interface Report {
 const latestDummyData: Array<Report> = [];
 
 export default function HomeScreen() {
+
   const [refreshing, setRefreshing] = useState(false);
+  dayjs.extend(customParseFormat)
 
   const { colors } = useTheme();
   const { user } = useAuthContext();
@@ -142,12 +146,22 @@ export default function HomeScreen() {
                       <View style={ {
                         marginVertical: 12,
                       } } key={ item.id }>
-                        <Card>
-                          <Card.Title title={ item.title } subtitle={ item.location } />
+                        <Card style={ {
+                          borderWidth: 1,
+                          borderColor: colors.backdrop
+                        } }>
+                          <Card.Title
+                            titleStyle={ {
+                              fontWeight: 'bold'
+                            } }
+                            titleVariant="titleLarge"
+                            title={ item.title }
+                            subtitle={ item.location }
+                          />
                           <Card.Cover source={ { uri: item.imageSrc } } />
                           <Card.Content>
                             <Text>
-                              { item.description }
+                              { dayjs(item.date).format('DD/MM/YYYY') }
                             </Text>
                           </Card.Content>
                         </Card>
