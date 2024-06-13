@@ -59,9 +59,9 @@ export default function TabsLayout() {
         } }
       />
       <Tabs.Screen
-        name="support"
+        name="admin"
         options={ {
-          title: 'Support',
+          title: 'Admin',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={ focused ? 'help-circle' : 'help-circle-outline' } color={ color } />
           ),
