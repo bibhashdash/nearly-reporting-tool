@@ -1,4 +1,4 @@
-import { Image, Pressable, ScrollView, View } from 'react-native';
+import { Image, Pressable, View } from 'react-native';
 import { Button, IconButton, Text, TextInput } from 'react-native-paper';
 import { useEffect, useState } from 'react';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
@@ -9,6 +9,7 @@ import { useAuthContext } from 'nearly-contexts';
 import { Report } from './index';
 import { addDoc, collection, QueryDocumentSnapshot, SnapshotOptions, WithFieldValue } from '@firebase/firestore';
 import { router } from 'expo-router';
+import { ProtectedPageWrapper } from 'nearly-components';
 
 const reportConverter = {
   toFirestore(report: WithFieldValue<Report>): Report {
@@ -112,12 +113,7 @@ export default function ReportScreen() {
   }
 
   return (
-    <ScrollView style={ {
-      paddingVertical: 24,
-      paddingHorizontal: 12,
-      flex: 1,
-    } }
-    >
+    <ProtectedPageWrapper>
       <View style={ {
         width: '100%',
         height: 200,
@@ -198,6 +194,6 @@ export default function ReportScreen() {
           </Button>
         </View>
       </View>
-    </ScrollView>
+    </ProtectedPageWrapper>
   );
 }

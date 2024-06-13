@@ -1,16 +1,13 @@
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 import { Text } from 'react-native-paper';
 
 import { useAuthContext } from 'nearly-contexts';
+import { ProtectedPageWrapper } from 'nearly-components';
 
 export default function AdminScreen() {
   const { nearlyUser } = useAuthContext();
   return (
-    <ScrollView style={ {
-      paddingVertical: 24,
-      paddingHorizontal: 12,
-      flex: 1,
-    } }>
+    <ProtectedPageWrapper>
       <View style={ {
         gap: 24,
         flex: 1,
@@ -22,6 +19,6 @@ export default function AdminScreen() {
           { nearlyUser?.role }
         </Text>
       </View>
-    </ScrollView>
+    </ProtectedPageWrapper>
   );
 }
