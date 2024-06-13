@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import { User } from '@firebase/auth';
-import {NearlyUser} from "./state";
+import { NearlyUser } from './state';
 export { AuthContext, useAuthContext } from './context';
 export { AuthContextProvider } from './Provider';
 export interface AuthContextState {
