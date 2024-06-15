@@ -7,7 +7,7 @@ import { database } from '../../../utilities/firebase';
 import { EmptyState, ReportCard } from 'nearly-components';
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import {router} from "expo-router";
+import { router } from 'expo-router';
 
 export interface Report {
   id: string,
