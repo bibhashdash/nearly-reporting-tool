@@ -1,10 +1,10 @@
 import { Pressable, ScrollView, Text, View, RefreshControl } from 'react-native';
 import { useCallback, useEffect, useState } from 'react';
-import { Card, useTheme } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
 import { useAuthContext } from 'nearly-contexts';
 import { collection, getDocs, query, where } from '@firebase/firestore';
 import { database } from '../../../utilities/firebase';
-import { EmptyState } from 'nearly-components';
+import { EmptyState, ReportCard } from 'nearly-components';
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 
@@ -109,17 +109,10 @@ export default function HomeScreen() {
                 <>
                   {
                     latestReports.map(item => (
-                      <Card style={ {
-                        marginVertical: 12,
-                      } } key={ item.id }>
-                        <Card.Title title={ item.date } subtitle={ item.location } />
-                        <Card.Cover source={ { uri: item.imageSrc } } />
-                        <Card.Content>
-                          <Text>
-                            { item.description }
-                          </Text>
-                        </Card.Content>
-                      </Card>
+                      <ReportCard
+                        item={ item }
+                        key={ item.id }
+                      />
                     ))
                   }
                 </>
@@ -141,29 +134,10 @@ export default function HomeScreen() {
                 <>
                   {
                     myReports.map(item => (
-                      <View style={ {
-                        marginVertical: 12,
-                      } } key={ item.id }>
-                        <Card style={ {
-                          borderWidth: 1,
-                          borderColor: colors.backdrop
-                        } }>
-                          <Card.Title
-                            titleStyle={ {
-                              fontWeight: 'bold'
-                            } }
-                            titleVariant="titleLarge"
-                            title={ item.title }
-                            subtitle={ item.location }
-                          />
-                          <Card.Cover source={ { uri: item.imageSrc } } />
-                          <Card.Content>
-                            <Text>
-                              { dayjs(item.date).format('DD/MM/YYYY') }
-                            </Text>
-                          </Card.Content>
-                        </Card>
-                      </View>
+                      <ReportCard
+                        key={ item.id }
+                        item={ item }
+                      />
                     ))
                   }
                 </>
