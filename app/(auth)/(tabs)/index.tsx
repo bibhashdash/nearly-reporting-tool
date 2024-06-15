@@ -7,6 +7,7 @@ import { database } from '../../../utilities/firebase';
 import { EmptyState, ReportCard } from 'nearly-components';
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import {router} from "expo-router";
 
 export interface Report {
   id: string,
@@ -119,7 +120,9 @@ export default function HomeScreen() {
                 </>
               ) : (
                 <>
-                  <EmptyState />
+                  <EmptyState>
+                    <Text>No Approved reports here. Why not create one?</Text>
+                  </EmptyState>
                 </>
               )
             }
@@ -136,6 +139,9 @@ export default function HomeScreen() {
                   {
                     myReports.map(item => (
                       <ReportCard
+                        onClickView={ () => router.push({
+                          pathname: `/reportCard/${ item.id }`,
+                        }) }
                         isMyOwn={ true }
                         key={ item.id }
                         item={ item }
@@ -145,7 +151,9 @@ export default function HomeScreen() {
                 </>
               ) : (
                 <>
-                  <EmptyState />
+                  <EmptyState>
+                    <Text>No reports here. Why not create one?</Text>
+                  </EmptyState>
                 </>
               )
             }

@@ -1,7 +1,11 @@
 import { View } from 'react-native';
 import { Avatar, Text, useTheme } from 'react-native-paper';
+import { ReactNode } from 'react';
 
-export const EmptyState = () => {
+export interface EmptyStateProps {
+  children: ReactNode,
+}
+export const EmptyState = ({ children }: EmptyStateProps) => {
   const { colors } = useTheme();
   return (
     <View style={ {
@@ -14,7 +18,7 @@ export const EmptyState = () => {
       <Text variant="labelLarge" style={ {
         color: colors.shadow
       } }>
-        It looks like there are no reports yet. Why not create one?
+        { children }
       </Text>
       <Avatar.Image size={ 180 } source={ require('../../assets/images/undraw_No_data_re_kwbl.png') } />
     </View>

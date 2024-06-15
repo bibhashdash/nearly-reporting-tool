@@ -46,6 +46,7 @@ export default function RootLayout() {
             headerShown: false,
           } } />
           <Stack.Screen name="(public)/signup" />
+          <Stack.Screen name="reportDetails/[slug]" />
         </Stack>
       </Provider>
     </AuthContextProvider>

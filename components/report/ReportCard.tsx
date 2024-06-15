@@ -3,7 +3,16 @@ import dayjs from 'dayjs';
 import { Report } from '../../app/(auth)/(tabs)';
 import { Pressable } from 'react-native';
 
-export const ReportCard = ({ item, isMyOwn }: { item: Report, isMyOwn: boolean }) => {
+export interface ReportCardProps {
+  item: Report,
+  isMyOwn: boolean,
+  onClickEdit?: () => void,
+  onClickDelete?: () => void,
+  onClickView?: () => void,
+  onClickLike?: () => void,
+}
+
+export const ReportCard = ({ item, isMyOwn, onClickDelete, onClickView, onClickEdit, onClickLike }: ReportCardProps) => {
   const { colors } = useTheme();
   return (
     <Card style={ {
@@ -48,7 +57,7 @@ export const ReportCard = ({ item, isMyOwn }: { item: Report, isMyOwn: boolean }
             source={ isMyOwn ? 'delete' : undefined }
           />
         </Pressable>
-        <Pressable>
+        <Pressable onPress={ onClickView && onClickView }>
           <Icon
             size={ 24 }
             source="eye"
