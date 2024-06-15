@@ -1,9 +1,9 @@
-import { Card, useTheme } from 'react-native-paper';
-import { Text } from 'react-native';
+import { Card, Divider, Icon, useTheme } from 'react-native-paper';
 import dayjs from 'dayjs';
 import { Report } from '../../app/(auth)/(tabs)';
+import { Pressable } from 'react-native';
 
-export const ReportCard = ({ item }: { item: Report }) => {
+export const ReportCard = ({ item, isMyOwn }: { item: Report, isMyOwn: boolean }) => {
   const { colors } = useTheme();
   return (
     <Card style={ {
@@ -18,7 +18,11 @@ export const ReportCard = ({ item }: { item: Report }) => {
         } }
         titleVariant="titleLarge"
         title={ item.title }
-        subtitle={ item.location }
+        subtitle={ item.location + ', ' + dayjs(item.date).format('DD/MM/YYYY') }
+        subtitleStyle={ {
+          fontStyle: 'italic',
+          color: '#777777'
+        } }
       />
       <Card.Cover
         style={ {
@@ -27,11 +31,30 @@ export const ReportCard = ({ item }: { item: Report }) => {
         } }
         source={ { uri: item.imageSrc } }
       />
-      <Card.Content>
-        <Text>
-          { dayjs(item.date).format('DD/MM/YYYY') }
-        </Text>
-      </Card.Content>
+      <Divider />
+      <Card.Actions style={ {
+        gap: 10,
+        padding: 12
+      } }>
+        <Pressable>
+          <Icon
+            size={ 24 }
+            source={ isMyOwn ? 'clipboard-edit-outline' : 'thumb-up-outline' }
+          />
+        </Pressable>
+        <Pressable>
+          <Icon
+            size={ 24 }
+            source={ isMyOwn ? 'delete' : undefined }
+          />
+        </Pressable>
+        <Pressable>
+          <Icon
+            size={ 24 }
+            source="eye"
+          />
+        </Pressable>
+      </Card.Actions>
     </Card>
   )
 }

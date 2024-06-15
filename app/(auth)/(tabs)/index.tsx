@@ -110,6 +110,7 @@ export default function HomeScreen() {
                   {
                     latestReports.map(item => (
                       <ReportCard
+                        isMyOwn={ false }
                         item={ item }
                         key={ item.id }
                       />
@@ -135,6 +136,7 @@ export default function HomeScreen() {
                   {
                     myReports.map(item => (
                       <ReportCard
+                        isMyOwn={ true }
                         key={ item.id }
                         item={ item }
                       />
