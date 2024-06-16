@@ -1,29 +1,37 @@
-import { View } from 'react-native';
 import { ActivityIndicator, Text } from 'react-native-paper';
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useApiService } from 'nearly-services';
-import { Report } from '../(auth)/(tabs)';
-import { EmptyState } from 'nearly-components';
+import { Report } from '../(tabs)';
+import { EmptyState, ProtectedPageWrapper } from 'nearly-components';
 
 export default function ReportDetailsPage() {
   const params = useLocalSearchParams();
-  const [report, setReport] = useState<Report | undefined>();
+  const [report, setReport] = useState<Report>();
   const { fetchReportById } = useApiService();
 
   useEffect(() => {
     if (fetchReportById && params['slug']) {
-      fetchReportById(params['slug'] as string).then(result => setReport(result))
+      fetchReportById(params['slug'] as string).then(result => {
+        if (result) {
+          setReport(result)
+        }
+      })
     }
-  }, [params])
+  }, [params.slug])
 
   return (
-    <View>
+    <ProtectedPageWrapper>
       {
         report ? (
-          <Text>
-            This is a report details page with id { report?.id }
-          </Text>
+          <>
+            <Text>
+              { report.title }
+            </Text>
+            <Text>
+              { report.date }
+            </Text>
+          </>
         ) : (
           <EmptyState>
             <ActivityIndicator />
@@ -33,6 +41,6 @@ export default function ReportDetailsPage() {
           </EmptyState>
         )
       }
-    </View>
+    </ProtectedPageWrapper>
   )
 }

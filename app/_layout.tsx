@@ -46,7 +46,9 @@ export default function RootLayout() {
             headerShown: false,
           } } />
           <Stack.Screen name="(public)/signup" />
-          <Stack.Screen name="reportDetails/[slug]" />
+          <Stack.Screen options={ {
+            title: 'Report Details'
+          } } name="(auth)/reportDetails/[slug]" />
         </Stack>
       </Provider>
     </AuthContextProvider>

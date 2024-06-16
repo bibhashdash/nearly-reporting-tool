@@ -7,7 +7,15 @@ import { database, storage } from '../../../utilities/firebase';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { useAuthContext } from 'nearly-contexts';
 import { Report } from './index';
-import { addDoc, collection, QueryDocumentSnapshot, SnapshotOptions, WithFieldValue } from '@firebase/firestore';
+import {
+  addDoc,
+  collection,
+  doc,
+  QueryDocumentSnapshot,
+  setDoc,
+  SnapshotOptions,
+  WithFieldValue
+} from '@firebase/firestore';
 import { router } from 'expo-router';
 import { ProtectedPageWrapper } from 'nearly-components';
 
@@ -98,7 +106,7 @@ export default function ReportScreen() {
             description,
             location: 'Aire streeet',
             isApproved: false,
-            id: new Date().toString(),
+            id: `${ Date.now() }-${ user.uid }`,
           })
         })
       }).catch(error => console.error('Error', error))
@@ -107,9 +115,8 @@ export default function ReportScreen() {
   }
 
   const uploadReportForApproval = (reportPayload: Report) => {
-    const docRef = collection(database, 'allReports').withConverter(reportConverter);
-    addDoc(docRef, reportPayload).then(result => console.log(result));
-    router.replace('/(auth)/')
+    const ref = doc(database, 'allReports', reportPayload.id).withConverter(reportConverter);
+    setDoc(ref, reportPayload).then(() => router.replace('/(auth)/'))
   }
 
   return (

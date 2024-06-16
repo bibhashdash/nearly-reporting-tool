@@ -40,11 +40,12 @@ export interface APIReturnProps {
   fetchAllApprovedReports?: () => void,
 }
 export function useApiService(): APIReturnProps {
-  const fetchReportById = async (userId: string): Promise<Report | undefined> => {
-    const docRef = doc(database, 'allReports', userId);
+  const fetchReportById = async (reportId: string): Promise<Report | undefined> => {
+    const docRef = doc(database, 'allReports', reportId);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      return docSnap.data() as Report;
+      console.log(docSnap.data())
+      return docSnap.data() as Report
     }
   }
   return {

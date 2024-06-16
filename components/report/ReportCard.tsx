@@ -8,14 +8,16 @@ export interface ReportCardProps {
   isMyOwn: boolean,
   onClickEdit?: () => void,
   onClickDelete?: () => void,
-  onClickView?: () => void,
+  onClickView: () => void,
   onClickLike?: () => void,
 }
 
 export const ReportCard = ({ item, isMyOwn, onClickDelete, onClickView, onClickEdit, onClickLike }: ReportCardProps) => {
   const { colors } = useTheme();
   return (
-    <Card style={ {
+    <Card
+      onPress={ onClickView }
+      style={ {
       marginVertical: 12,
       backgroundColor: colors.background,
       borderWidth: 1,
@@ -57,7 +59,7 @@ export const ReportCard = ({ item, isMyOwn, onClickDelete, onClickView, onClickE
             source={ isMyOwn ? 'delete' : undefined }
           />
         </Pressable>
-        <Pressable onPress={ onClickView && onClickView }>
+        <Pressable onPress={ onClickView }>
           <Icon
             size={ 24 }
             source="eye"
