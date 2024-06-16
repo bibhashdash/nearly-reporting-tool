@@ -53,7 +53,7 @@ export const ReportCard = ({ item, isMyOwn, onClickDelete, onClickView, onClickE
             source={ isMyOwn ? 'clipboard-edit-outline' : 'thumb-up-outline' }
           />
         </Pressable>
-        <Pressable>
+        <Pressable onPress={ onClickDelete }>
           <Icon
             size={ 24 }
             source={ isMyOwn ? 'delete' : undefined }

@@ -1,6 +1,6 @@
 import { Pressable, ScrollView, Text, View, RefreshControl } from 'react-native';
 import { useCallback, useEffect, useState } from 'react';
-import { useTheme } from 'react-native-paper';
+import { Button, Dialog, Portal, useTheme } from 'react-native-paper';
 import { useAuthContext } from 'nearly-contexts';
 import { collection, getDocs, query, where } from '@firebase/firestore';
 import { database } from '../../../utilities/firebase';
@@ -8,6 +8,8 @@ import { EmptyState, ReportCard } from 'nearly-components';
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { router } from 'expo-router';
+import { useApiService } from 'nearly-services';
+import {hi} from "react-native-paper-dates";
 
 export interface Report {
   id: string,
@@ -27,9 +29,14 @@ export default function HomeScreen() {
 
   const { colors } = useTheme();
   const { user } = useAuthContext();
+  const { deleteReportById } = useApiService();
   const [homeTab, setHomeTab] = useState<string>('latest');
   const [latestReports, setLatestReports] = useState<Array<Report>>([]);
   const [myReports, setMyReports] = useState<Array<Report>>([])
+  const [visible, setVisible] = useState(false);
+  const [modalStoryId, setModalStoryId] = useState<string>()
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
@@ -145,6 +152,10 @@ export default function HomeScreen() {
                         onClickView={ () => router.push({
                           pathname: `reportDetails/${ item.id }`,
                         }) }
+                        onClickDelete={ () => {
+                          setModalStoryId(item.id);
+                          showModal();
+                        } }
                         isMyOwn={ true }
                         key={ item.id }
                         item={ item }
@@ -162,6 +173,31 @@ export default function HomeScreen() {
             }
           </ScrollView>
       }
+      <Portal>
+        <Dialog visible={ visible } onDismiss={ hideModal }>
+          <Dialog.Title>
+            Delete Report
+          </Dialog.Title>
+          <Dialog.Content>
+            <Text>
+              Are you sure?
+            </Text>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button mode="outlined" style={ {
+              width: 100
+            } } onPress={ () => {
+              if (modalStoryId) {
+                deleteReportById(modalStoryId as string);
+                hideModal();
+              }
+            } }>Yes</Button>
+            <Button style={ {
+              width: 100
+            } } mode="contained" onPress={ hideModal }>No</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
     </ScrollView>
   );
 }

@@ -1,4 +1,4 @@
-import { doc, getDoc, QueryDocumentSnapshot, SnapshotOptions, WithFieldValue } from '@firebase/firestore';
+import {deleteDoc, doc, getDoc, QueryDocumentSnapshot, SnapshotOptions, WithFieldValue} from '@firebase/firestore';
 import { Report } from '../app/(auth)/(tabs)';
 import { database } from '../utilities/firebase';
 
@@ -38,17 +38,23 @@ export interface APIReturnProps {
   fetchReportById?: (id: string) => Promise<Report | undefined>,
   fetchAuthenticatedUserReports?: (userId: string) => Report | undefined,
   fetchAllApprovedReports?: () => void,
+  deleteReportById: (id: string) => void,
 }
 export function useApiService(): APIReturnProps {
   const fetchReportById = async (reportId: string): Promise<Report | undefined> => {
     const docRef = doc(database, 'allReports', reportId);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      console.log(docSnap.data())
       return docSnap.data() as Report
     }
   }
+
+  const deleteReportById = async (id: string) => {
+    console.log(id);
+    await deleteDoc(doc(database, 'allReports', id)).then(result => console.log(result));
+  }
   return {
     fetchReportById,
+    deleteReportById,
   }
 }
