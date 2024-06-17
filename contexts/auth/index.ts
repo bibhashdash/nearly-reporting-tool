@@ -10,4 +10,5 @@ export interface AuthContextState {
   logout: () => void,
   user: User | null,
   nearlyUser: NearlyUser | null,
+  fetchUserCustomDetails: (userId: string) => void,
 }

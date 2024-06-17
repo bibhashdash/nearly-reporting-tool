@@ -1,4 +1,13 @@
-import {deleteDoc, doc, getDoc, QueryDocumentSnapshot, SnapshotOptions, WithFieldValue} from '@firebase/firestore';
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc, getDocs,
+  query,
+  QueryDocumentSnapshot,
+  SnapshotOptions, where,
+  WithFieldValue
+} from '@firebase/firestore';
 import { Report } from '../app/(auth)/(tabs)';
 import { database } from '../utilities/firebase';
 

@@ -31,8 +31,6 @@ export function useAuthContextState(): AuthContextState {
       .then(userCredential => {
         setIsLoggedIn(true);
         setUser(userCredential.user);
-        const docRef = doc(database, 'users', userCredential.user.uid);
-        getDoc(docRef).then(result => setNearlyUser(result.data() as NearlyUser));
       })
       .catch((error) => {
         console.log(error)
@@ -45,6 +43,13 @@ export function useAuthContextState(): AuthContextState {
     });
   }
 
+  const fetchUserCustomDetails = async (userId: string) => {
+    const docRef = doc(database, 'users', userId);
+    await getDoc(docRef).then(result => {
+      setNearlyUser(result.data() as NearlyUser);
+    })
+  }
+
   useProtectedRoute(user);
 
   return {
@@ -54,5 +59,6 @@ export function useAuthContextState(): AuthContextState {
     signIn,
     user,
     nearlyUser,
+    fetchUserCustomDetails,
   }
 }

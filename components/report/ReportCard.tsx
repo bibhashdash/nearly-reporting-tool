@@ -1,4 +1,4 @@
-import { Card, Divider, Icon, useTheme } from 'react-native-paper';
+import {Button, Card, Divider, Icon, Text, useTheme} from 'react-native-paper';
 import dayjs from 'dayjs';
 import { Report } from '../../app/(auth)/(tabs)';
 import { Pressable } from 'react-native';
@@ -8,7 +8,7 @@ export interface ReportCardProps {
   isMyOwn: boolean,
   onClickEdit?: () => void,
   onClickDelete?: () => void,
-  onClickView: () => void,
+  onClickView?: () => void,
   onClickLike?: () => void,
 }
 
@@ -16,7 +16,6 @@ export const ReportCard = ({ item, isMyOwn, onClickDelete, onClickView, onClickE
   const { colors } = useTheme();
   return (
     <Card
-      onPress={ onClickView }
       style={ {
       marginVertical: 12,
       backgroundColor: colors.background,
@@ -43,6 +42,11 @@ export const ReportCard = ({ item, isMyOwn, onClickDelete, onClickView, onClickE
         source={ { uri: item.imageSrc } }
       />
       <Divider />
+      <Card.Content>
+        <Text variant="bodyLarge">
+          { item.description }
+        </Text>
+      </Card.Content>
       <Card.Actions style={ {
         gap: 10,
         padding: 12
@@ -59,12 +63,16 @@ export const ReportCard = ({ item, isMyOwn, onClickDelete, onClickView, onClickE
             source={ isMyOwn ? 'delete' : undefined }
           />
         </Pressable>
-        <Pressable onPress={ onClickView }>
-          <Icon
-            size={ 24 }
-            source="eye"
-          />
-        </Pressable>
+        {
+          onClickView && (
+            <Pressable onPress={ onClickView }>
+              <Icon
+                size={ 24 }
+                source="eye"
+              />
+            </Pressable>
+          )
+        }
       </Card.Actions>
     </Card>
   )

@@ -2,10 +2,17 @@ import { Tabs } from 'expo-router';
 import { Appbar, useTheme } from 'react-native-paper';
 import { useAuthContext } from 'nearly-contexts';
 import { TabBarIcon } from 'nearly-components';
-import React from 'react';
+import { useEffect } from 'react';
 
 export default function TabsLayout() {
-  const { logout } = useAuthContext();
+
+  const { logout, fetchUserCustomDetails, user, nearlyUser } = useAuthContext();
+
+  useEffect(() => {
+    if (user && nearlyUser) {
+      fetchUserCustomDetails(user.uid);
+    }
+  }, [])
   const { colors } = useTheme();
   return (
     <Tabs

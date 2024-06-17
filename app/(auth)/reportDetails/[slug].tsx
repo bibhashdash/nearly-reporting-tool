@@ -3,13 +3,15 @@ import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useApiService } from 'nearly-services';
 import { Report } from '../(tabs)';
-import { EmptyState, ProtectedPageWrapper } from 'nearly-components';
+import { EmptyState, ProtectedPageWrapper, ReportCard } from 'nearly-components';
+import { useAuthContext } from 'nearly-contexts';
 
 export default function ReportDetailsPage() {
   const params = useLocalSearchParams();
   const [report, setReport] = useState<Report>();
+  const { nearlyUser, user } = useAuthContext();
   const { fetchReportById } = useApiService();
-
+  console.log(nearlyUser?.uid, report?.userId)
   useEffect(() => {
     if (fetchReportById && params['slug']) {
       fetchReportById(params['slug'] as string).then(result => {
@@ -24,14 +26,7 @@ export default function ReportDetailsPage() {
     <ProtectedPageWrapper>
       {
         report ? (
-          <>
-            <Text>
-              { report.title }
-            </Text>
-            <Text>
-              { report.date }
-            </Text>
-          </>
+          <ReportCard isMyOwn={ user?.uid === report.userId } item={ report } />
         ) : (
           <EmptyState>
             <ActivityIndicator />

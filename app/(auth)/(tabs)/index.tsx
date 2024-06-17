@@ -9,7 +9,6 @@ import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { router } from 'expo-router';
 import { useApiService } from 'nearly-services';
-import {hi} from "react-native-paper-dates";
 
 export interface Report {
   id: string,
@@ -28,7 +27,7 @@ export default function HomeScreen() {
   dayjs.extend(customParseFormat)
 
   const { colors } = useTheme();
-  const { user } = useAuthContext();
+  const { user, nearlyUser } = useAuthContext();
   const { deleteReportById } = useApiService();
   const [homeTab, setHomeTab] = useState<string>('latest');
   const [latestReports, setLatestReports] = useState<Array<Report>>([]);
@@ -43,6 +42,7 @@ export default function HomeScreen() {
       setRefreshing(false);
     }, 2000);
   }, []);
+
   const fetchMyDocuments = async () => {
     if (user) {
       const tempArray: Array<Report> = [];
