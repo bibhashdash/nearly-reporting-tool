@@ -9,10 +9,11 @@ export default function TabsLayout() {
   const { logout, fetchUserCustomDetails, user, nearlyUser } = useAuthContext();
 
   useEffect(() => {
-    if (user && nearlyUser) {
+    if (user) {
       fetchUserCustomDetails(user.uid);
     }
   }, [])
+
   const { colors } = useTheme();
   return (
     <Tabs

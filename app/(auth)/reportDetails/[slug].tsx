@@ -26,7 +26,7 @@ export default function ReportDetailsPage() {
     <ProtectedPageWrapper>
       {
         report ? (
-          <ReportCard isMyOwn={ user?.uid === report.userId } item={ report } />
+          <ReportCard showFullDescription={true} isMyOwn={ user?.uid === report.userId } item={ report } />
         ) : (
           <EmptyState>
             <ActivityIndicator />

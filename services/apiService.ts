@@ -62,6 +62,9 @@ export function useApiService(): APIReturnProps {
     console.log(id);
     await deleteDoc(doc(database, 'allReports', id)).then(result => console.log(result));
   }
+
+
+
   return {
     fetchReportById,
     deleteReportById,

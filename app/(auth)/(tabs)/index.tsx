@@ -118,6 +118,7 @@ export default function HomeScreen() {
                   {
                     latestReports.map(item => (
                       <ReportCard
+                        showFullDescription={false}
                         onClickView={ () => router.push({
                           pathname: `reportDetails/${ item.id }`,
                         }) }
@@ -149,6 +150,7 @@ export default function HomeScreen() {
                   {
                     myReports.map(item => (
                       <ReportCard
+                        showFullDescription={false}
                         onClickView={ () => router.push({
                           pathname: `reportDetails/${ item.id }`,
                         }) }
