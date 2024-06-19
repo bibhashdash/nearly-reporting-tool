@@ -14,7 +14,7 @@ export interface ReportCardProps {
   onClickApprove?: (id: string) => void,
 }
 
-export const ReportCard = ({ item, isMyOwn, onClickDelete, onClickView, onClickEdit, onClickLike, showFullDescription, onClickApprove }: ReportCardProps) => {
+export const ReportCard = ({ item, isMyOwn, onClickDelete, onClickView, showFullDescription, onClickApprove }: ReportCardProps) => {
   const { colors } = useTheme();
   return (
     <Card

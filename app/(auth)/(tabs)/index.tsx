@@ -27,7 +27,7 @@ export default function HomeScreen() {
   dayjs.extend(customParseFormat)
 
   const { colors } = useTheme();
-  const { user, nearlyUser } = useAuthContext();
+  const { user } = useAuthContext();
   const { deleteReportById } = useApiService();
   const [homeTab, setHomeTab] = useState<string>('latest');
   const [latestReports, setLatestReports] = useState<Array<Report>>([]);
