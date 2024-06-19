@@ -38,6 +38,8 @@ export default function HomeScreen() {
   const hideModal = () => setVisible(false);
   const onRefresh = useCallback(() => {
     setRefreshing(true);
+    fetchMyDocuments();
+    fetchAllDocuments();
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
