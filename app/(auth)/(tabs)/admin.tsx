@@ -8,11 +8,14 @@ import { Report } from './index';
 import { collection, getDocs, query, where } from '@firebase/firestore';
 import { database } from '../../../utilities/firebase';
 import { router } from 'expo-router';
+import { useApiService } from 'nearly-services';
 
 export default function AdminScreen() {
   const { nearlyUser } = useAuthContext();
   // const { fetchAllDraftReports } = useApiService();
   const [allDrafts, setAllDrafts] = useState<Array<Report>>([]);
+
+  const { approveReportById } = useApiService();
   const fetchAllDraftReports = async () => {
     const tempArray: Array<Report> = [];
 
@@ -23,7 +26,12 @@ export default function AdminScreen() {
   }
   useEffect(() => {
     fetchAllDraftReports();
-  }, [])
+  }, []);
+
+  const handleApproval = (id: string) => {
+    approveReportById(id);
+    fetchAllDraftReports();
+  }
   return (
     <ProtectedPageWrapper>
       <View style={ {
@@ -49,7 +57,7 @@ export default function AdminScreen() {
       </View>
       {
         allDrafts.map(item => (
-          <ReportCard showFullDescription={false} onClickView={ () => router.push({
+          <ReportCard onClickApprove={ id => handleApproval(id) } showFullDescription={ false } onClickView={ () => router.push({
             pathname: `reportDetails/${ item.id }`,
           }) } key={ item.id } item={ item } isMyOwn={ false } />
         ))

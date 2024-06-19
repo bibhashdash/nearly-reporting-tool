@@ -1,11 +1,10 @@
 import {
-  collection,
   deleteDoc,
   doc,
-  getDoc, getDocs,
-  query,
+  getDoc,
   QueryDocumentSnapshot,
-  SnapshotOptions, where,
+  SnapshotOptions,
+  updateDoc,
   WithFieldValue
 } from '@firebase/firestore';
 import { Report } from '../app/(auth)/(tabs)';
@@ -48,6 +47,7 @@ export interface APIReturnProps {
   fetchAuthenticatedUserReports?: (userId: string) => Report | undefined,
   fetchAllApprovedReports?: () => void,
   deleteReportById: (id: string) => void,
+  approveReportById: (id: string) => void,
 }
 export function useApiService(): APIReturnProps {
   const fetchReportById = async (reportId: string): Promise<Report | undefined> => {
@@ -63,10 +63,16 @@ export function useApiService(): APIReturnProps {
     await deleteDoc(doc(database, 'allReports', id)).then(result => console.log(result));
   }
 
-
+  const approveReportById = (id: string) => {
+    const docRef = doc(database, 'allReports', id).withConverter(reportConverter);
+    updateDoc(docRef, {
+      isApproved: true,
+    })
+  }
 
   return {
     fetchReportById,
     deleteReportById,
+    approveReportById,
   }
 }

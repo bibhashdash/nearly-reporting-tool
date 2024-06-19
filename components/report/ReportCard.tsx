@@ -1,4 +1,4 @@
-import { Card, Divider, Icon, Text, useTheme } from 'react-native-paper';
+import { Button, Card, Divider, Icon, Text, useTheme } from 'react-native-paper';
 import dayjs from 'dayjs';
 import { Report } from '../../app/(auth)/(tabs)';
 import { Pressable } from 'react-native';
@@ -11,9 +11,10 @@ export interface ReportCardProps {
   onClickView?: () => void,
   onClickLike?: () => void,
   showFullDescription: boolean,
+  onClickApprove?: (id: string) => void,
 }
 
-export const ReportCard = ({ item, isMyOwn, onClickDelete, onClickView, onClickEdit, onClickLike, showFullDescription }: ReportCardProps) => {
+export const ReportCard = ({ item, isMyOwn, onClickDelete, onClickView, onClickEdit, onClickLike, showFullDescription, onClickApprove }: ReportCardProps) => {
   const { colors } = useTheme();
   return (
     <Card
@@ -76,6 +77,15 @@ export const ReportCard = ({ item, isMyOwn, onClickDelete, onClickView, onClickE
                 source="eye"
               />
             </Pressable>
+          )
+        }
+        {
+          onClickApprove && (
+            <Button
+              onPress={ () => onClickApprove(item.id) }
+              mode="contained">
+              Approve
+            </Button>
           )
         }
       </Card.Actions>
