@@ -1,8 +1,8 @@
 import { View } from 'react-native';
-import { Text } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
 
 import { useAuthContext } from 'nearly-contexts';
-import { ProtectedPageWrapper, ReportCard } from 'nearly-components';
+import { EmptyState, ProtectedPageWrapper, ReportCard } from 'nearly-components';
 import { useEffect, useState } from 'react';
 import { Report } from './index';
 import { collection, getDocs, query, where } from '@firebase/firestore';
@@ -56,11 +56,31 @@ export default function AdminScreen() {
         </View>
       </View>
       {
-        allDrafts.map(item => (
-          <ReportCard onClickApprove={ id => handleApproval(id) } showFullDescription={ false } onClickView={ () => router.push({
-            pathname: `reportDetails/${ item.id }`,
-          }) } key={ item.id } item={ item } isMyOwn={ false } />
-        ))
+        allDrafts.length > 0 ? (
+          <>
+            {
+              allDrafts.map(item => (
+                <ReportCard onClickApprove={ id => handleApproval(id) } showFullDescription={ false } onClickView={ () => router.push({
+                  pathname: `reportDetails/${ item.id }`,
+                }) } key={ item.id } item={ item } isMyOwn={ false } />
+              ))
+            }
+          </>
+        ) : (
+          <EmptyState>
+            <View style={ {
+              flexDirection: 'column',
+              gap: 12,
+            } }>
+              <Text>
+                No reports need approval at the moment
+              </Text>
+              <Button onPress={ () => router.push('/(auth)/(tabs)/') } mode="contained">
+                Back to home
+              </Button>
+            </View>
+          </EmptyState>
+        )
       }
     </ProtectedPageWrapper>
   );
