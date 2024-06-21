@@ -8,8 +8,6 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { useAuthContext } from 'nearly-contexts';
 import { Report } from './index';
 import {
-  addDoc,
-  collection,
   doc,
   QueryDocumentSnapshot,
   setDoc,
