@@ -54,13 +54,19 @@ export default function AdminScreen() {
             color: '#9b9b9b'
           } }>Role: { nearlyUser?.role }</Text>
         </View>
+        <Text>
+          Here you can find all the reports that need approval
+        </Text>
       </View>
       {
         allDrafts.length > 0 ? (
           <>
             {
               allDrafts.map(item => (
-                <ReportCard onClickApprove={ id => handleApproval(id) } showFullDescription={ false } onClickView={ () => router.push({
+                <ReportCard onClickApprove={ id => {
+                  if (nearlyUser?.uid === item.id) handleApproval(id);
+                //   else show a modal saying "Sorry you cannot approve your own reports!"
+                } } showFullDescription={ false } onClickView={ () => router.push({
                   pathname: `reportDetails/${ item.id }`,
                 }) } key={ item.id } item={ item } isMyOwn={ false } />
               ))

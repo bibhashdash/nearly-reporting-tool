@@ -59,7 +59,6 @@ export function useApiService(): APIReturnProps {
   }
 
   const deleteReportById = async (id: string) => {
-    console.log(id);
     await deleteDoc(doc(database, 'allReports', id)).then(result => console.log(result));
   }
 

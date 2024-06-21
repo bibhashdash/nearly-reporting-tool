@@ -9,9 +9,8 @@ import { useAuthContext } from 'nearly-contexts';
 export default function ReportDetailsPage() {
   const params = useLocalSearchParams();
   const [report, setReport] = useState<Report>();
-  const { nearlyUser, user } = useAuthContext();
   const { fetchReportById } = useApiService();
-  console.log(nearlyUser?.uid, report?.userId)
+  const { user } = useAuthContext();
   useEffect(() => {
     if (fetchReportById && params['slug']) {
       fetchReportById(params['slug'] as string).then(result => {
