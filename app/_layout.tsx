@@ -1,5 +1,5 @@
 import { useFonts } from 'expo-font';
-import {MD3LightTheme as DefaultTheme, Portal, Provider} from 'react-native-paper';
+import { MD3LightTheme as DefaultTheme, Provider } from 'react-native-paper';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
