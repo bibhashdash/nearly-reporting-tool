@@ -1,17 +1,16 @@
 import { useFonts } from 'expo-font';
-import { MD3LightTheme as DefaultTheme, Provider } from 'react-native-paper';
+import {MD3LightTheme as DefaultTheme, Portal, Provider} from 'react-native-paper';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 import { enGB, registerTranslation } from 'react-native-paper-dates'
-import { AuthContextProvider } from 'nearly-contexts';
+import { AuthContextProvider, ModalContextProvider } from 'nearly-contexts';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
-
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
@@ -37,20 +36,22 @@ export default function RootLayout() {
 
   return (
     <AuthContextProvider>
-      <Provider theme={ theme }>
-        <Stack>
-          <Stack.Screen name="(auth)/(tabs)" options={ {
-            headerShown: false,
-          } } />
-          <Stack.Screen name="index" options={ {
-            headerShown: false,
-          } } />
-          <Stack.Screen name="(public)/signup" />
-          <Stack.Screen options={ {
-            title: 'Report Details'
-          } } name="(auth)/reportDetails/[slug]" />
-        </Stack>
-      </Provider>
+      <ModalContextProvider>
+        <Provider theme={ theme }>
+          <Stack>
+            <Stack.Screen name="(auth)/(tabs)" options={ {
+              headerShown: false,
+            } } />
+            <Stack.Screen name="index" options={ {
+              headerShown: false,
+            } } />
+            <Stack.Screen name="(public)/signup" />
+            <Stack.Screen options={ {
+              title: 'Report Details'
+            } } name="(auth)/reportDetails/[slug]" />
+          </Stack>
+        </Provider>
+      </ModalContextProvider>
     </AuthContextProvider>
   );
 }
